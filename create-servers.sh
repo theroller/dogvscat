@@ -13,9 +13,11 @@ docker-machine create \
   --driver=digitalocean \
   --digitalocean-access-token="${DO_TOKEN}" \
   --digitalocean-size="${DO_SIZE}" \
-  --digitalocean-ssh-key-fingerprint="${SSH_FINGERPRINT}" \
+  --digitalocean-ssh-key-fingerprint="${DO_SSH_FINGERPRINT}" \
   --digitalocean-tags=dogvscat \
   --digitalocean-private-networking=true \
+  --digitalocean-image=ubuntu-18-04-x64 \
+  --digitalocean-region=sfo2 \
   dvc${server} &
 done
 
