@@ -2,13 +2,13 @@
 set -x
 
 # since we created droplets with a private NIC on eth1, lets use that for swarm comms
-LEADER_IP=$(docker-machine ssh dvc1 ifconfig eth1 | grep 'inet addr' | cut -d: -f2 | awk '{print $1}')
+LEADER_IP=$(docker-machine ssh dvc1 ifconfig eth1 | grep 'inet ' | cut -d: -f2 | awk '{print $2}')
 
 # create a swarm as all managers
 docker-machine ssh dvc1 docker swarm init --advertise-addr "$LEADER_IP"
 
 # note that if you use eth1 above (private network in digitalocean) it makes the below
-# a bit tricky, because docker-machine lists the public IP's but we need the 
+# a bit tricky, because docker-machine lists the public IP's but we need the
 # private IP of manager for join commands, so we can't simply envvar the token
 # like lots of scripts do... we'd need to fist get private IP of first node
 
@@ -20,4 +20,3 @@ for i in 2 3; do
 done
 
 docker-machine env dvc1
-
